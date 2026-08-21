@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Executivo de Desempenho e Indicadores — Dra. Maíra Vilela — Cirurgia Vascular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --verde:#1F6B2E;--verde-md:#2E8B45;--verde-lt:#E8F5E9;--verde-bdr:#A5D6A7;
+  --azul:#1F3864;--azul-md:#185FA5;--azul-lt:#EBF3FF;--azul-bdr:#90CAF9;
+  --cinza-dk:#1a1a2e;--cinza-md:#64748b;--cinza-lt:#f8fafc;--cinza-bdr:#e2e8f0;
+  --branco:#ffffff;--roxo:#6A1B9A;--vermelho:#B71C1C;
+  --radius:12px;--radius-lg:20px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+}
+body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);min-height:100vh}
+.header{background:var(--azul);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--verde)}
+.header::after{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.03)}
+.header-inner{max-width:1100px;margin:0 auto;padding:36px 48px 32px 52px;position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.header-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,4vw,36px);color:#fff;line-height:1.15;letter-spacing:-.3px}
+.header-sub{font-size:13px;color:#90CAF9;margin-top:6px;font-weight:400;letter-spacing:.3px}
+.header-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:500;padding:6px 14px;border-radius:100px;white-space:nowrap}
+.container{max-width:1100px;margin:0 auto;padding:40px 24px 80px}
+.section{margin-bottom:48px}
+.section-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--azul);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--cinza-bdr)}
+.section-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--azul);color:#fff;border-radius:50%;font-size:12px;font-weight:600;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.kpi-card{background:var(--branco);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);border-top:3px solid var(--cor,var(--azul-md));transition:transform .2s,box-shadow .2s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.kpi-label{font-size:11px;font-weight:500;color:var(--cinza-md);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.kpi-value{font-family:'DM Serif Display',serif;font-size:26px;color:var(--cor,var(--azul));line-height:1;margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--cinza-md)}
+.chart-card{background:var(--branco);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+.chart-card h3{font-family:'DM Serif Display',serif;font-size:16px;color:var(--azul);margin-bottom:20px;font-style:italic}
+.chart-wrap{width:100%;position:relative}
+.chart-wrap canvas{width:100%!important;display:block}
+.table-card{background:var(--branco);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.table-card table{width:100%;border-collapse:collapse;font-size:13px}
+.table-card thead th{background:var(--azul);color:#fff;padding:12px 16px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.table-card thead th:not(:first-child){text-align:right}
+.table-card tbody tr{border-bottom:1px solid var(--cinza-bdr);transition:background .15s}
+.table-card tbody tr:last-child{border-bottom:none}
+.table-card tbody tr:hover{background:var(--cinza-lt)}
+.table-card tbody tr.total-row{background:var(--verde-lt);font-weight:600;border-top:2px solid var(--verde-bdr)}
+.table-card tbody tr.alt{background:#fafcfe}
+.table-card td{padding:10px 16px;color:var(--cinza-dk)}
+.table-card td:not(:first-child){text-align:right}
+.val-verde{color:var(--verde);font-weight:600}
+.val-azul{color:var(--azul-md);font-weight:600}
+.val-pos{color:#1B5E20;font-weight:600}
+.val-neg{color:var(--vermelho);font-weight:600}
+.badge-alta{display:inline-block;background:var(--verde-lt);color:var(--verde);border:1px solid var(--verde-bdr);border-radius:100px;font-size:10px;font-weight:600;padding:2px 8px}
+.badge-queda{display:inline-block;background:#FFEBEE;color:var(--vermelho);border:1px solid #FFCDD2;border-radius:100px;font-size:10px;font-weight:600;padding:2px 8px}
+.insight{border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;border-left:4px solid var(--cor,var(--verde));background:var(--bg,var(--verde-lt));display:flex;gap:14px;align-items:flex-start}
+.insight-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.insight-title{font-size:13px;font-weight:600;color:var(--cor,var(--verde));margin-bottom:4px}
+.insight-text{font-size:13px;color:#374151;line-height:1.6}
+.footer{text-align:center;color:var(--cinza-md);font-size:12px;padding:0 24px 48px}
+@media(max-width:640px){.header-inner{padding:24px 20px 20px 26px}.container{padding:24px 16px 60px}.chart-card{padding:18px 14px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">Relatório Executivo de<br>Desempenho e Indicadores</div>
+      <div class="header-sub">Dra. Maíra Vilela &nbsp;·&nbsp; Cirurgia Vascular &nbsp;·&nbsp; Life Varizes &nbsp;·&nbsp; 2025–2026</div>
+    </div>
+    <div class="header-badge">Jan–Jul 2026</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SEÇÃO 1 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">1</span> Desempenho Anual 2025</div>
+    <div class="kpi-grid" id="kpi2025"></div>
+    <div class="chart-card">
+      <h3>Evolução mensal — 2025</h3>
+      <div class="chart-wrap"><canvas id="c2025" height="260"></canvas></div>
+    </div>
+    <div class="insight" style="--cor:var(--verde);--bg:var(--verde-lt)">
+      <div class="insight-icon">📊</div>
+      <div>
+        <div class="insight-title">Análise 2025</div>
+        <div class="insight-text">O ano apresentou forte sazonalidade. Janeiro abriu com R$&nbsp;66.944, seguido de queda em fevereiro e março. A recuperação foi gradual de abril a junho, com novo recuo em julho–setembro. Novembro atingiu R$&nbsp;109.367 — recorde do ano, representando 19% do faturamento anual.</div>
+      </div>
+    </div>
+    <div class="section-title" style="font-size:16px;margin-top:32px">
+      <span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span>
+    </div>
+    <div class="table-card"><table id="tabela2025">
+      <thead><tr><th>Mês</th><th>Faturamento</th><th>Var. Mensal</th><th>Acumulado</th></tr></thead>
+      <tbody id="tbody2025"></tbody>
+    </table></div>
+  </div>
+
+  <!-- SEÇÃO 2 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">2</span> Desempenho Parcial 2026</div>
+    <div class="kpi-grid" id="kpi2026"></div>
+    <div class="chart-card">
+      <h3>Evolução mensal — 2026 (parcial)</h3>
+      <div class="chart-wrap"><canvas id="c2026" height="240"></canvas></div>
+    </div>
+    <div class="insight" style="--cor:var(--azul-md);--bg:var(--azul-lt)">
+      <div class="insight-icon">🚀</div>
+      <div>
+        <div class="insight-title">Análise 2026</div>
+        <div class="insight-text" id="insight2026texto"></div>
+      </div>
+    </div>
+    <div class="section-title" style="font-size:16px;margin-top:32px">
+      <span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span>
+    </div>
+    <div class="table-card"><table>
+      <thead><tr><th>Mês</th><th>Faturamento</th><th>Var. Mensal</th><th>Acumulado</th></tr></thead>
+      <tbody id="tbody2026"></tbody>
+    </table></div>
+  </div>
+
+  <!-- SEÇÃO 3 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">3</span> Análise Comparativa 2025 vs 2026</div>
+    <div class="chart-card">
+      <h3>2025 vs 2026 — meses disponíveis</h3>
+      <div class="chart-wrap"><canvas id="cComp" height="260"></canvas></div>
+    </div>
+    <div class="table-card"><table>
+      <thead><tr><th>Mês</th><th>2025 (R$)</th><th>2026 (R$)</th><th>Var. R$</th><th>Var. %</th><th>Status</th></tr></thead>
+      <tbody id="tbodyComp"></tbody>
+    </table></div>
+  </div>
+
+  <!-- SEÇÃO 4 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">4</span> Conclusões e Pontos de Atenção</div>
+    <div id="conclusoes"></div>
+  </div>
+
+</div>
+<footer class="footer">Dra. Maíra Vilela &nbsp;·&nbsp; Cirurgia Vascular &nbsp;·&nbsp; Life Varizes &nbsp;·&nbsp; Dados extraídos do sistema de faturamento</footer>
+
+<script>
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const ABREV = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const DADOS = {
+  v2025: [66944, 26462, 27213, 39737, 45515, 53853, 30973, 38099, 30183, 70054, 109367, 37197],
+  v2026: [83705, 66802, 79786, 58971, 107007, 109543, 100377, null, null, null, null, null]
+};
+
+const brl = v => v == null ? '—' : 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const sinal = v => v >= 0 ? '+' : '';
+
+function drawLineChart(canvasId, datasets, labels, opts) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || canvas.parentElement.offsetWidth || 800;
+  const H = parseInt(canvas.getAttribute('height')) || 260;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = { top: 24, right: 20, bottom: 48, left: 70 };
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top  - PAD.bottom;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const allVals = datasets.flatMap(d => d.data.filter(v => v != null));
+  const maxV = Math.max(...allVals) * 1.12;
+  const minV = 0;
+
+  const xPos = (i, total) => PAD.left + (i / (total - 1)) * cW;
+  const yPos = v => PAD.top + cH - ((v - minV) / (maxV - minV)) * cH;
+
+  const nLines = 5;
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = '#94a3b8';
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= nLines; i++) {
+    const v = minV + (maxV - minV) * (i / nLines);
+    const y = yPos(v);
+    ctx.strokeStyle = 'rgba(0,0,0,.07)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillText('R$ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v.toFixed(0)), PAD.left - 6, y + 4);
+  }
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#64748b';
+  ctx.font = '11px DM Sans, sans-serif';
+  labels.forEach((l, i) => {
+    ctx.fillText(l, xPos(i, labels.length), H - PAD.bottom + 18);
+  });
+
+  datasets.forEach(ds => {
+    const pts = ds.data.map((v, i) => v != null ? { x: xPos(i, labels.length), y: yPos(v), v } : null);
+    const valid = pts.filter(Boolean);
+    if (!valid.length) return;
+
+    ctx.beginPath();
+    ctx.moveTo(valid[0].x, PAD.top + cH);
+    valid.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(valid[valid.length-1].x, PAD.top + cH);
+    ctx.closePath();
+    ctx.fillStyle = ds.fillColor || 'rgba(31,107,46,.08)';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.setLineDash(ds.dash || []);
+    ctx.strokeStyle = ds.color;
+    ctx.lineWidth = ds.lineWidth || 2.5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap  = 'round';
+    let first = true;
+    valid.forEach(p => { first ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); first = false; });
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    valid.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, ds.pointR || 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.strokeStyle = ds.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+
+    if (ds.showLabels) {
+      ctx.font = 'bold 9px DM Sans, sans-serif';
+      ctx.fillStyle = ds.color;
+      ctx.textAlign = 'center';
+      valid.forEach(p => {
+        const txt = 'R$\u00a0' + Math.round(p.v/1000).toFixed(0) + 'k';
+        ctx.fillText(txt, p.x, p.y - 10);
+      });
+    }
+  });
+
+  if (opts && opts.legend && opts.legend.length) {
+    let lx = PAD.left;
+    opts.legend.forEach(lg => {
+      ctx.fillStyle = lg.color;
+      ctx.fillRect(lx, 6, 16, 3);
+      ctx.fillStyle = '#374151';
+      ctx.font = '11px DM Sans, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(lg.label, lx + 20, 12);
+      lx += ctx.measureText(lg.label).width + 44;
+    });
+  }
+}
+
+function desenharGraficos() {
+  drawLineChart('c2025', [{
+    data: DADOS.v2025,
+    color: '#1F6B2E',
+    fillColor: 'rgba(31,107,46,.10)',
+    showLabels: true,
+    lineWidth: 2.5,
+    pointR: 5
+  }, {
+    data: Array(12).fill(DADOS.v2025.reduce((a,b)=>a+b,0)/12),
+    color: '#94a3b8',
+    dash: [5,4],
+    lineWidth: 1.5,
+    pointR: 0,
+    fillColor: 'transparent'
+  }], ABREV, {});
+
+  const labs26 = ABREV.filter((_,i) => DADOS.v2026[i] != null);
+  const vals26 = DADOS.v2026.filter(v => v != null);
+  if (vals26.length) {
+    drawLineChart('c2026', [{
+      data: vals26,
+      color: '#185FA5',
+      fillColor: 'rgba(24,95,165,.10)',
+      showLabels: true,
+      lineWidth: 2.5,
+      pointR: 6
+    }], labs26, {});
+  }
+
+  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  if (idxs.length) {
+    const labsC  = idxs.map(i=>ABREV[i]);
+    const d2025c = idxs.map(i=>DADOS.v2025[i]);
+    const d2026c = idxs.map(i=>DADOS.v2026[i]);
+    drawLineChart('cComp', [
+      { data: d2025c, color: '#1F6B2E', fillColor: 'rgba(31,107,46,.07)', dash:[5,3], lineWidth:2, pointR:5 },
+      { data: d2026c, color: '#185FA5', fillColor: 'rgba(24,95,165,.08)', lineWidth:2.5, pointR:6, showLabels:true }
+    ], labsC, { legend: [{color:'#1F6B2E',label:'2025'},{color:'#185FA5',label:'2026'}] });
+  }
+}
+
+function renderKPI(id, cards) {
+  document.getElementById(id).innerHTML = cards.map(([label,val,sub,cor]) =>
+    `<div class="kpi-card" style="--cor:${cor}">
+      <div class="kpi-label">${label}</div>
+      <div class="kpi-value">${val}</div>
+      <div class="kpi-sub">${sub}</div>
+    </div>`).join('');
+}
+
+function renderKPIs() {
+  const t25 = DADOS.v2025.reduce((a,b)=>a+b,0);
+  const m25 = t25/12;
+  const mx25i = DADOS.v2025.indexOf(Math.max(...DADOS.v2025));
+  const mn25i = DADOS.v2025.indexOf(Math.min(...DADOS.v2025));
+  renderKPI('kpi2025',[
+    ['Faturamento Total', brl(t25), 'Janeiro–Dezembro 2025', '#1F6B2E'],
+    ['Média Mensal', brl(m25), 'referência de desempenho', '#185FA5'],
+    ['Melhor Mês', MESES[mx25i], brl(DADOS.v2025[mx25i]), '#6A1B9A'],
+    ['Mês Mais Fraco', MESES[mn25i], brl(DADOS.v2025[mn25i]), '#B71C1C'],
+  ]);
+  const v26vals = DADOS.v2026.filter(v=>v!=null);
+  if (!v26vals.length) return;
+  const t26   = v26vals.reduce((a,b)=>a+b,0);
+  const idxs  = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  const t25p  = idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
+  const vAcum = ((t26-t25p)/t25p*100).toFixed(1).replace('.',',');
+  const mx26i = DADOS.v2026.indexOf(Math.max(...v26vals));
+  renderKPI('kpi2026',[
+    ['Faturamento Parcial', brl(t26), 'Jan–' + ABREV[idxs[idxs.length-1]] + ' 2026', '#185FA5'],
+    ['Média Mensal', brl(t26/v26vals.length), 'meses disponíveis', '#1F6B2E'],
+    ['Melhor Mês', MESES[mx26i], brl(DADOS.v2026[mx26i]), '#6A1B9A'],
+    ['Crescimento vs 2025', '+' + vAcum + '%', 'acumulado mesmo período', '#1F6B2E'],
+  ]);
+  document.getElementById('insight2026texto').textContent =
+    `Os ${v26vals.length} primeiros meses de 2026 somam ${brl(t26)}, superando o mesmo período de 2025 (${brl(t25p)}) em ${vAcum}%. A média mensal de 2026 (${brl(t26/v26vals.length)}) supera a média anual de 2025 (${brl(m25)}).`;
+}
+
+function renderTabela2025() {
+  let acum = 0;
+  document.getElementById('tbody2025').innerHTML = DADOS.v2025.map((v,i) => {
+    acum += v;
+    const prev = i > 0 ? DADOS.v2025[i-1] : null;
+    const varM = prev ? ((v-prev)/prev*100).toFixed(1).replace('.',',') + '%' : '—';
+    return `<tr class="${i%2===0?'alt':''}">
+      <td>${MESES[i]}</td>
+      <td class="val-verde">${brl(v)}</td>
+      <td>${varM}</td>
+      <td>${brl(acum)}</td>
+    </tr>`;
+  }).join('') +
+  `<tr class="total-row">
+    <td>Total Anual</td>
+    <td>${brl(DADOS.v2025.reduce((a,b)=>a+b,0))}</td>
+    <td>—</td>
+    <td>${brl(DADOS.v2025.reduce((a,b)=>a+b,0))}</td>
+  </tr>`;
+}
+
+function renderTabela2026() {
+  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  if (!idxs.length) { document.getElementById('tbody2026').innerHTML = ''; return; }
+  let acum = 0;
+  document.getElementById('tbody2026').innerHTML = idxs.map((i,pos) => {
+    const v = DADOS.v2026[i];
+    acum += v;
+    const prevIdx = pos > 0 ? idxs[pos-1] : null;
+    const prev = prevIdx != null ? DADOS.v2026[prevIdx] : null;
+    const varM = prev ? ((v-prev)/prev*100).toFixed(1).replace('.',',') + '%' : '—';
+    return `<tr class="${pos%2===0?'alt':''}">
+      <td>${MESES[i]}</td>
+      <td class="val-azul">${brl(v)}</td>
+      <td>${varM}</td>
+      <td>${brl(acum)}</td>
+    </tr>`;
+  }).join('') +
+  `<tr class="total-row">
+    <td>Total Parcial</td>
+    <td>${brl(acum)}</td>
+    <td>—</td>
+    <td>${brl(acum)}</td>
+  </tr>`;
+}
+
+function renderTabelaComp() {
+  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  document.getElementById('tbodyComp').innerHTML = idxs.map((i,idx) => {
+    const v25=DADOS.v2025[i], v26=DADOS.v2026[i];
+    const vr=v26-v25, vp=((v26-v25)/v25*100).toFixed(1).replace('.',',');
+    return `<tr class="${idx%2===0?'alt':''}">
+      <td>${MESES[i]}</td>
+      <td class="val-verde">${brl(v25)}</td>
+      <td class="val-azul">${brl(v26)}</td>
+      <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td>
+      <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td>
+      <td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td>
+    </tr>`;
+  }).join('');
+  if (idxs.length) {
+    const t25=idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
+    const t26=idxs.reduce((s,i)=>s+DADOS.v2026[i],0);
+    const vr=t26-t25, vp=((t26-t25)/t25*100).toFixed(1).replace('.',',');
+    document.getElementById('tbodyComp').innerHTML +=
+      `<tr class="total-row">
+        <td>Total (jan–${ABREV[idxs[idxs.length-1]]})</td>
+        <td>${brl(t25)}</td><td>${brl(t26)}</td>
+        <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td>
+        <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td>
+        <td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td>
+      </tr>`;
+  }
+}
+
+function renderConclusoes() {
+  const v26vals = DADOS.v2026.filter(v=>v!=null);
+  if (!v26vals.length) { document.getElementById('conclusoes').innerHTML=''; return; }
+  const t25=DADOS.v2025.reduce((a,b)=>a+b,0), m25=t25/12;
+  const idxs=DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  const t26=v26vals.reduce((a,b)=>a+b,0);
+  const t25p=idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
+  const vAcum=((t26-t25p)/t25p*100).toFixed(1).replace('.',',');
+  const mx26=Math.max(...v26vals), mx26i=DADOS.v2026.indexOf(mx26);
+  const mn26=Math.min(...v26vals), mn26i=DADOS.v2026.indexOf(mn26);
+  const proj=(t26/v26vals.length)*12, vProj=((proj-t25)/t25*100).toFixed(1).replace('.',',');
+  document.getElementById('conclusoes').innerHTML = [
+    ['✔','#1F6B2E','var(--verde-lt)','Crescimento consistente em 2026',
+      `Todos os ${v26vals.length} meses de 2026 superam seus equivalentes de 2025. O acumulado somou ${brl(t26)} — crescimento de +${vAcum}% frente ao mesmo período anterior.`],
+    ['✔','#185FA5','var(--azul-lt)','Novos recordes mensais',
+      `${MESES[mx26i]}/2026 com ${brl(mx26)} é o melhor mês do período analisado, superando o pico de novembro/2025 (${brl(109367)}).`],
+    ['⚠','#E65100','#FFF3E0','Ponto de atenção',
+      `${MESES[mn26i]}/2026 registrou o menor valor do período parcial (${brl(mn26)}), ainda assim acima da média mensal de 2025 (${brl(Math.round(m25))}). Vale monitorar se é sazonalidade pontual.`],
+    ['◉','#6A1B9A','#F3E5F5','Projeção 2026',
+      `Mantida a média atual (${brl(t26/v26vals.length)}/mês), o faturamento anual projetado seria ${brl(proj)}, crescimento de +${vProj}% sobre 2025 (${brl(t25)}).`],
+  ].map(([icon,cor,bg,titulo,texto]) =>
+    `<div class="insight" style="--cor:${cor};--bg:${bg}">
+      <div class="insight-icon">${icon}</div>
+      <div><div class="insight-title">${titulo}</div>
+      <div class="insight-text">${texto}</div></div>
+    </div>`).join('');
+}
+
+function renderAll() {
+  renderKPIs();
+  renderTabela2025();
+  renderTabela2026();
+  renderTabelaComp();
+  renderConclusoes();
+  setTimeout(desenharGraficos, 80);
+}
+
+renderAll();
+window.addEventListener('resize', () => { clearTimeout(window._rzt); window._rzt = setTimeout(desenharGraficos, 150); });
+</script>
+</body>
+</html>
