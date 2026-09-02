@@ -13,7 +13,7 @@
   --verde:#1F6B2E;--verde-md:#2E8B45;--verde-lt:#E8F5E9;--verde-bdr:#A5D6A7;
   --azul:#1F3864;--azul-md:#185FA5;--azul-lt:#EBF3FF;--azul-bdr:#90CAF9;
   --cinza-dk:#1a1a2e;--cinza-md:#64748b;--cinza-lt:#f8fafc;--cinza-bdr:#e2e8f0;
-  --branco:#ffffff;--roxo:#6A1B9A;--vermelho:#B71C1C;
+  --branco:#ffffff;--roxo:#6A1B9A;--vermelho:#B71C1C;--laranja:#E65100;--teal:#00695C;
   --radius:12px;--radius-lg:20px;
   --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.08);
   --shadow-lg:0 8px 32px rgba(0,0,0,.12);
@@ -23,7 +23,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 .header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--verde)}
 .header::after{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.03)}
 .header-inner{max-width:1100px;margin:0 auto;padding:36px 48px 32px 52px;position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.header-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,4vw,36px);color:#fff;line-height:1.15;letter-spacing:-.3px}
+.header-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,4vw,34px);color:#fff;line-height:1.15;letter-spacing:-.3px}
 .header-sub{font-size:13px;color:#90CAF9;margin-top:6px;font-weight:400;letter-spacing:.3px}
 .header-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:500;padding:6px 14px;border-radius:100px;white-space:nowrap}
 .container{max-width:1100px;margin:0 auto;padding:40px 24px 80px}
@@ -41,8 +41,8 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 .chart-card h3{font-family:'DM Serif Display',serif;font-size:16px;color:var(--azul);margin-bottom:20px;font-style:italic}
 .chart-wrap{width:100%;position:relative}
 .chart-wrap canvas{width:100%!important;display:block}
-.table-card{background:var(--branco);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
-.table-card table{width:100%;border-collapse:collapse;font-size:13px}
+.table-card{background:var(--branco);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;overflow-x:auto}
+.table-card table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
 .table-card thead th{background:var(--azul);color:#fff;padding:12px 16px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
 .table-card thead th:not(:first-child){text-align:right}
 .table-card tbody tr{border-bottom:1px solid var(--cinza-bdr);transition:background .15s}
@@ -50,7 +50,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 .table-card tbody tr:hover{background:var(--cinza-lt)}
 .table-card tbody tr.total-row{background:var(--verde-lt);font-weight:600;border-top:2px solid var(--verde-bdr)}
 .table-card tbody tr.alt{background:#fafcfe}
-.table-card td{padding:10px 16px;color:var(--cinza-dk)}
+.table-card td{padding:10px 16px;color:var(--cinza-dk);white-space:nowrap}
 .table-card td:not(:first-child){text-align:right}
 .val-verde{color:var(--verde);font-weight:600}
 .val-azul{color:var(--azul-md);font-weight:600}
@@ -73,7 +73,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
       <div class="header-title">Relatório Executivo de<br>Desempenho e Indicadores</div>
       <div class="header-sub">Dra. Maíra Vilela &nbsp;·&nbsp; Cirurgia Vascular &nbsp;·&nbsp; Life Varizes &nbsp;·&nbsp; 2025–2026</div>
     </div>
-    <div class="header-badge">Jan–Jul 2026</div>
+    <div class="header-badge">2025 vs 2026</div>
   </div>
 </header>
 
@@ -89,15 +89,11 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
     </div>
     <div class="insight" style="--cor:var(--verde);--bg:var(--verde-lt)">
       <div class="insight-icon">📊</div>
-      <div>
-        <div class="insight-title">Análise 2025</div>
-        <div class="insight-text">O ano apresentou forte sazonalidade. Janeiro abriu com R$&nbsp;66.944, seguido de queda em fevereiro e março. A recuperação foi gradual de abril a junho, com novo recuo em julho–setembro. Novembro atingiu R$&nbsp;109.367 — recorde do ano, representando 19% do faturamento anual.</div>
-      </div>
+      <div><div class="insight-title">Análise 2025</div>
+      <div class="insight-text">O ano apresentou forte sazonalidade. Janeiro abriu com R$&nbsp;66.944, seguido de queda em fevereiro e março. A recuperação foi gradual de abril a junho, com novo recuo em julho–setembro. Novembro atingiu R$&nbsp;109.367 — recorde do ano, representando 19% do faturamento anual.</div></div>
     </div>
-    <div class="section-title" style="font-size:16px;margin-top:32px">
-      <span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span>
-    </div>
-    <div class="table-card"><table id="tabela2025">
+    <div class="section-title" style="font-size:16px;margin-top:32px"><span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span></div>
+    <div class="table-card"><table>
       <thead><tr><th>Mês</th><th>Faturamento</th><th>Var. Mensal</th><th>Acumulado</th></tr></thead>
       <tbody id="tbody2025"></tbody>
     </table></div>
@@ -113,14 +109,10 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
     </div>
     <div class="insight" style="--cor:var(--azul-md);--bg:var(--azul-lt)">
       <div class="insight-icon">🚀</div>
-      <div>
-        <div class="insight-title">Análise 2026</div>
-        <div class="insight-text" id="insight2026texto"></div>
-      </div>
+      <div><div class="insight-title">Análise 2026</div>
+      <div class="insight-text" id="insight2026texto"></div></div>
     </div>
-    <div class="section-title" style="font-size:16px;margin-top:32px">
-      <span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span>
-    </div>
+    <div class="section-title" style="font-size:16px;margin-top:32px"><span style="font-family:'DM Serif Display',serif;font-style:italic">Detalhamento mensal</span></div>
     <div class="table-card"><table>
       <thead><tr><th>Mês</th><th>Faturamento</th><th>Var. Mensal</th><th>Acumulado</th></tr></thead>
       <tbody id="tbody2026"></tbody>
@@ -129,10 +121,10 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 
   <!-- SEÇÃO 3 -->
   <div class="section">
-    <div class="section-title"><span class="section-num">3</span> Análise Comparativa 2025 vs 2026</div>
+    <div class="section-title"><span class="section-num">3</span> Comparativo 2025 vs 2026</div>
     <div class="chart-card">
-      <h3>2025 vs 2026 — meses disponíveis</h3>
-      <div class="chart-wrap"><canvas id="cComp" height="260"></canvas></div>
+      <h3>Faturamento mês a mês — 2025 vs 2026</h3>
+      <div class="chart-wrap"><canvas id="cComp" height="280"></canvas></div>
     </div>
     <div class="table-card"><table>
       <thead><tr><th>Mês</th><th>2025 (R$)</th><th>2026 (R$)</th><th>Var. R$</th><th>Var. %</th><th>Status</th></tr></thead>
@@ -152,314 +144,126 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 <script>
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const ABREV = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-const DADOS = {
-  v2025: [66944, 26462, 27213, 39737, 45515, 53853, 30973, 38099, 30183, 70054, 109367, 37197],
-  v2026: [83705, 66802, 79786, 58971, 107007, 109543, 100377, null, null, null, null, null]
-};
+const DADOS = { v2025: [66944, 26462, 27213, 39737, 45515, 53853, 30973, 38099, 30183, 70054, 109367, 37197], v2026: [83705, 66802, 79786, 58971, 107007, 109543, 100377, 142534, null, null, null, null] };
 
 const brl = v => v == null ? '—' : 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const sinal = v => v >= 0 ? '+' : '';
 
 function drawLineChart(canvasId, datasets, labels, opts) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.offsetWidth || canvas.parentElement.offsetWidth || 800;
-  const H = parseInt(canvas.getAttribute('height')) || 260;
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  const PAD = { top: 24, right: 20, bottom: 48, left: 70 };
-  const cW = W - PAD.left - PAD.right;
-  const cH = H - PAD.top  - PAD.bottom;
-
-  ctx.clearRect(0, 0, W, H);
-
-  const allVals = datasets.flatMap(d => d.data.filter(v => v != null));
-  const maxV = Math.max(...allVals) * 1.12;
-  const minV = 0;
-
-  const xPos = (i, total) => PAD.left + (i / (total - 1)) * cW;
-  const yPos = v => PAD.top + cH - ((v - minV) / (maxV - minV)) * cH;
-
-  const nLines = 5;
-  ctx.font = '11px DM Sans, sans-serif';
-  ctx.fillStyle = '#94a3b8';
-  ctx.textAlign = 'right';
-  for (let i = 0; i <= nLines; i++) {
-    const v = minV + (maxV - minV) * (i / nLines);
-    const y = yPos(v);
-    ctx.strokeStyle = 'rgba(0,0,0,.07)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillText('R$ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v.toFixed(0)), PAD.left - 6, y + 4);
-  }
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#64748b';
-  ctx.font = '11px DM Sans, sans-serif';
-  labels.forEach((l, i) => {
-    ctx.fillText(l, xPos(i, labels.length), H - PAD.bottom + 18);
+  const canvas=document.getElementById(canvasId); if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||canvas.parentElement.offsetWidth||800;
+  const H=parseInt(canvas.getAttribute('height'))||260;
+  canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const legendH=(opts&&opts.legend)?26:0;
+  const PAD={top:16+legendH,right:20,bottom:40,left:68};
+  const cW=W-PAD.left-PAD.right, cH=H-PAD.top-PAD.bottom;
+  ctx.clearRect(0,0,W,H);
+  const allVals=datasets.flatMap(d=>d.data.filter(v=>v!=null));
+  const maxV=Math.max(...allVals)*1.15, minV=0;
+  const xPos=(i,t)=>PAD.left+(i/(t-1))*cW;
+  const yPos=v=>PAD.top+cH-((v-minV)/(maxV-minV))*cH;
+  ctx.font='10.5px DM Sans, sans-serif'; ctx.fillStyle='#94a3b8'; ctx.textAlign='right';
+  for(let i=0;i<=5;i++){const v=minV+(maxV-minV)*(i/5),y=yPos(v);
+    ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(W-PAD.right,y);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillText('R$ '+(v>=1000?(v/1000).toFixed(0)+'k':v.toFixed(0)),PAD.left-6,y+3);}
+  ctx.textAlign='center';ctx.fillStyle='#64748b';ctx.font='11px DM Sans, sans-serif';
+  labels.forEach((l,i)=>ctx.fillText(l,xPos(i,labels.length),H-PAD.bottom+18));
+  datasets.forEach(ds=>{
+    const pts=ds.data.map((v,i)=>v!=null?{x:xPos(i,labels.length),y:yPos(v),v}:null);
+    const valid=pts.filter(Boolean); if(!valid.length)return;
+    if(ds.fillColor){ctx.beginPath();ctx.moveTo(valid[0].x,PAD.top+cH);valid.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(valid[valid.length-1].x,PAD.top+cH);ctx.closePath();ctx.fillStyle=ds.fillColor;ctx.fill();}
+    ctx.beginPath();ctx.setLineDash(ds.dash||[]);ctx.strokeStyle=ds.color;ctx.lineWidth=ds.lineWidth||2.2;ctx.lineJoin='round';ctx.lineCap='round';
+    let f=true;valid.forEach(p=>{f?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);f=false;});ctx.stroke();ctx.setLineDash([]);
+    valid.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,ds.pointR||4,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle=ds.color;ctx.lineWidth=1.8;ctx.stroke();});
+    if(ds.showLabels){ctx.font='bold 9px DM Sans, sans-serif';ctx.fillStyle=ds.color;ctx.textAlign='center';valid.forEach(p=>ctx.fillText('R$\u00a0'+Math.round(p.v/1000).toFixed(0)+'k',p.x,p.y-10));}
   });
-
-  datasets.forEach(ds => {
-    const pts = ds.data.map((v, i) => v != null ? { x: xPos(i, labels.length), y: yPos(v), v } : null);
-    const valid = pts.filter(Boolean);
-    if (!valid.length) return;
-
-    ctx.beginPath();
-    ctx.moveTo(valid[0].x, PAD.top + cH);
-    valid.forEach(p => ctx.lineTo(p.x, p.y));
-    ctx.lineTo(valid[valid.length-1].x, PAD.top + cH);
-    ctx.closePath();
-    ctx.fillStyle = ds.fillColor || 'rgba(31,107,46,.08)';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.setLineDash(ds.dash || []);
-    ctx.strokeStyle = ds.color;
-    ctx.lineWidth = ds.lineWidth || 2.5;
-    ctx.lineJoin = 'round';
-    ctx.lineCap  = 'round';
-    let first = true;
-    valid.forEach(p => { first ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); first = false; });
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    valid.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, ds.pointR || 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.strokeStyle = ds.color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    });
-
-    if (ds.showLabels) {
-      ctx.font = 'bold 9px DM Sans, sans-serif';
-      ctx.fillStyle = ds.color;
-      ctx.textAlign = 'center';
-      valid.forEach(p => {
-        const txt = 'R$\u00a0' + Math.round(p.v/1000).toFixed(0) + 'k';
-        ctx.fillText(txt, p.x, p.y - 10);
-      });
-    }
-  });
-
-  if (opts && opts.legend && opts.legend.length) {
-    let lx = PAD.left;
-    opts.legend.forEach(lg => {
-      ctx.fillStyle = lg.color;
-      ctx.fillRect(lx, 6, 16, 3);
-      ctx.fillStyle = '#374151';
-      ctx.font = '11px DM Sans, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(lg.label, lx + 20, 12);
-      lx += ctx.measureText(lg.label).width + 44;
-    });
-  }
+  if(opts&&opts.legend&&opts.legend.length){const items=opts.legend;ctx.font='10.5px DM Sans, sans-serif';
+    let tW=0;const ws=items.map(lg=>{const w=ctx.measureText(lg.label).width+22;tW+=w;return w;});
+    let lx=(W-tW)/2;items.forEach((lg,i)=>{ctx.fillStyle=lg.color;ctx.fillRect(lx,8,12,3);ctx.fillStyle='#374151';ctx.textAlign='left';ctx.fillText(lg.label,lx+16,13);lx+=ws[i];});}
 }
 
-function desenharGraficos() {
-  drawLineChart('c2025', [{
-    data: DADOS.v2025,
-    color: '#1F6B2E',
-    fillColor: 'rgba(31,107,46,.10)',
-    showLabels: true,
-    lineWidth: 2.5,
-    pointR: 5
-  }, {
-    data: Array(12).fill(DADOS.v2025.reduce((a,b)=>a+b,0)/12),
-    color: '#94a3b8',
-    dash: [5,4],
-    lineWidth: 1.5,
-    pointR: 0,
-    fillColor: 'transparent'
-  }], ABREV, {});
+function renderKPI(id,cards){document.getElementById(id).innerHTML=cards.map(([label,val,sub,cor])=>`<div class="kpi-card" style="--cor:${cor}"><div class="kpi-label">${label}</div><div class="kpi-value">${val}</div><div class="kpi-sub">${sub}</div></div>`).join('');}
 
-  const labs26 = ABREV.filter((_,i) => DADOS.v2026[i] != null);
-  const vals26 = DADOS.v2026.filter(v => v != null);
-  if (vals26.length) {
-    drawLineChart('c2026', [{
-      data: vals26,
-      color: '#185FA5',
-      fillColor: 'rgba(24,95,165,.10)',
-      showLabels: true,
-      lineWidth: 2.5,
-      pointR: 6
-    }], labs26, {});
-  }
-
-  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
-  if (idxs.length) {
-    const labsC  = idxs.map(i=>ABREV[i]);
-    const d2025c = idxs.map(i=>DADOS.v2025[i]);
-    const d2026c = idxs.map(i=>DADOS.v2026[i]);
-    drawLineChart('cComp', [
-      { data: d2025c, color: '#1F6B2E', fillColor: 'rgba(31,107,46,.07)', dash:[5,3], lineWidth:2, pointR:5 },
-      { data: d2026c, color: '#185FA5', fillColor: 'rgba(24,95,165,.08)', lineWidth:2.5, pointR:6, showLabels:true }
-    ], labsC, { legend: [{color:'#1F6B2E',label:'2025'},{color:'#185FA5',label:'2026'}] });
-  }
-}
-
-function renderKPI(id, cards) {
-  document.getElementById(id).innerHTML = cards.map(([label,val,sub,cor]) =>
-    `<div class="kpi-card" style="--cor:${cor}">
-      <div class="kpi-label">${label}</div>
-      <div class="kpi-value">${val}</div>
-      <div class="kpi-sub">${sub}</div>
-    </div>`).join('');
-}
-
-function renderKPIs() {
-  const t25 = DADOS.v2025.reduce((a,b)=>a+b,0);
-  const m25 = t25/12;
-  const mx25i = DADOS.v2025.indexOf(Math.max(...DADOS.v2025));
-  const mn25i = DADOS.v2025.indexOf(Math.min(...DADOS.v2025));
-  renderKPI('kpi2025',[
-    ['Faturamento Total', brl(t25), 'Janeiro–Dezembro 2025', '#1F6B2E'],
-    ['Média Mensal', brl(m25), 'referência de desempenho', '#185FA5'],
-    ['Melhor Mês', MESES[mx25i], brl(DADOS.v2025[mx25i]), '#6A1B9A'],
-    ['Mês Mais Fraco', MESES[mn25i], brl(DADOS.v2025[mn25i]), '#B71C1C'],
-  ]);
-  const v26vals = DADOS.v2026.filter(v=>v!=null);
-  if (!v26vals.length) return;
-  const t26   = v26vals.reduce((a,b)=>a+b,0);
-  const idxs  = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
-  const t25p  = idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
-  const vAcum = ((t26-t25p)/t25p*100).toFixed(1).replace('.',',');
-  const mx26i = DADOS.v2026.indexOf(Math.max(...v26vals));
-  renderKPI('kpi2026',[
-    ['Faturamento Parcial', brl(t26), 'Jan–' + ABREV[idxs[idxs.length-1]] + ' 2026', '#185FA5'],
-    ['Média Mensal', brl(t26/v26vals.length), 'meses disponíveis', '#1F6B2E'],
-    ['Melhor Mês', MESES[mx26i], brl(DADOS.v2026[mx26i]), '#6A1B9A'],
-    ['Crescimento vs 2025', '+' + vAcum + '%', 'acumulado mesmo período', '#1F6B2E'],
-  ]);
-  document.getElementById('insight2026texto').textContent =
-    `Os ${v26vals.length} primeiros meses de 2026 somam ${brl(t26)}, superando o mesmo período de 2025 (${brl(t25p)}) em ${vAcum}%. A média mensal de 2026 (${brl(t26/v26vals.length)}) supera a média anual de 2025 (${brl(m25)}).`;
-}
-
-function renderTabela2025() {
-  let acum = 0;
-  document.getElementById('tbody2025').innerHTML = DADOS.v2025.map((v,i) => {
-    acum += v;
-    const prev = i > 0 ? DADOS.v2025[i-1] : null;
-    const varM = prev ? ((v-prev)/prev*100).toFixed(1).replace('.',',') + '%' : '—';
-    return `<tr class="${i%2===0?'alt':''}">
-      <td>${MESES[i]}</td>
-      <td class="val-verde">${brl(v)}</td>
-      <td>${varM}</td>
-      <td>${brl(acum)}</td>
-    </tr>`;
-  }).join('') +
-  `<tr class="total-row">
-    <td>Total Anual</td>
-    <td>${brl(DADOS.v2025.reduce((a,b)=>a+b,0))}</td>
-    <td>—</td>
-    <td>${brl(DADOS.v2025.reduce((a,b)=>a+b,0))}</td>
-  </tr>`;
-}
-
-function renderTabela2026() {
-  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
-  if (!idxs.length) { document.getElementById('tbody2026').innerHTML = ''; return; }
-  let acum = 0;
-  document.getElementById('tbody2026').innerHTML = idxs.map((i,pos) => {
-    const v = DADOS.v2026[i];
-    acum += v;
-    const prevIdx = pos > 0 ? idxs[pos-1] : null;
-    const prev = prevIdx != null ? DADOS.v2026[prevIdx] : null;
-    const varM = prev ? ((v-prev)/prev*100).toFixed(1).replace('.',',') + '%' : '—';
-    return `<tr class="${pos%2===0?'alt':''}">
-      <td>${MESES[i]}</td>
-      <td class="val-azul">${brl(v)}</td>
-      <td>${varM}</td>
-      <td>${brl(acum)}</td>
-    </tr>`;
-  }).join('') +
-  `<tr class="total-row">
-    <td>Total Parcial</td>
-    <td>${brl(acum)}</td>
-    <td>—</td>
-    <td>${brl(acum)}</td>
-  </tr>`;
-}
-
-function renderTabelaComp() {
-  const idxs = DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
-  document.getElementById('tbodyComp').innerHTML = idxs.map((i,idx) => {
-    const v25=DADOS.v2025[i], v26=DADOS.v2026[i];
-    const vr=v26-v25, vp=((v26-v25)/v25*100).toFixed(1).replace('.',',');
-    return `<tr class="${idx%2===0?'alt':''}">
-      <td>${MESES[i]}</td>
-      <td class="val-verde">${brl(v25)}</td>
-      <td class="val-azul">${brl(v26)}</td>
-      <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td>
-      <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td>
-      <td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td>
-    </tr>`;
-  }).join('');
-  if (idxs.length) {
-    const t25=idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
-    const t26=idxs.reduce((s,i)=>s+DADOS.v2026[i],0);
-    const vr=t26-t25, vp=((t26-t25)/t25*100).toFixed(1).replace('.',',');
-    document.getElementById('tbodyComp').innerHTML +=
-      `<tr class="total-row">
-        <td>Total (jan–${ABREV[idxs[idxs.length-1]]})</td>
-        <td>${brl(t25)}</td><td>${brl(t26)}</td>
-        <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td>
-        <td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td>
-        <td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td>
-      </tr>`;
-  }
-}
-
-function renderConclusoes() {
-  const v26vals = DADOS.v2026.filter(v=>v!=null);
-  if (!v26vals.length) { document.getElementById('conclusoes').innerHTML=''; return; }
+function renderKPIs(){
   const t25=DADOS.v2025.reduce((a,b)=>a+b,0), m25=t25/12;
+  const mx=DADOS.v2025.indexOf(Math.max(...DADOS.v2025)), mn=DADOS.v2025.indexOf(Math.min(...DADOS.v2025));
+  renderKPI('kpi2025',[
+    ['Faturamento Total',brl(t25),'Janeiro–Dezembro 2025','#1F6B2E'],
+    ['Média Mensal',brl(m25),'referência de desempenho','#185FA5'],
+    ['Melhor Mês',MESES[mx],brl(DADOS.v2025[mx]),'#6A1B9A'],
+    ['Mês Mais Fraco',MESES[mn],brl(DADOS.v2025[mn]),'#B71C1C'],
+  ]);
+  const vals=DADOS.v2026.filter(v=>v!=null); if(!vals.length)return;
+  const t26=vals.reduce((a,b)=>a+b,0);
   const idxs=DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
-  const t26=v26vals.reduce((a,b)=>a+b,0);
   const t25p=idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
   const vAcum=((t26-t25p)/t25p*100).toFixed(1).replace('.',',');
-  const mx26=Math.max(...v26vals), mx26i=DADOS.v2026.indexOf(mx26);
-  const mn26=Math.min(...v26vals), mn26i=DADOS.v2026.indexOf(mn26);
-  const proj=(t26/v26vals.length)*12, vProj=((proj-t25)/t25*100).toFixed(1).replace('.',',');
-  document.getElementById('conclusoes').innerHTML = [
+  const mx26=DADOS.v2026.indexOf(Math.max(...vals));
+  renderKPI('kpi2026',[
+    ['Faturamento Parcial',brl(t26),'Jan–'+ABREV[idxs[idxs.length-1]]+' 2026','#185FA5'],
+    ['Média Mensal',brl(t26/vals.length),'meses disponíveis','#1F6B2E'],
+    ['Melhor Mês',MESES[mx26],brl(DADOS.v2026[mx26]),'#6A1B9A'],
+    ['Crescimento vs 2025','+'+vAcum+'%','acumulado mesmo período','#1F6B2E'],
+  ]);
+  document.getElementById('insight2026texto').textContent=`Os ${vals.length} primeiros meses de 2026 somam ${brl(t26)}, superando o mesmo período de 2025 (${brl(t25p)}) em ${vAcum}%. A média mensal de 2026 (${brl(t26/vals.length)}) supera a média anual de 2025 (${brl(m25)}).`;
+}
+
+function renderTabela(bodyId, arr, cls){
+  const idxs=arr.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  let acum=0;
+  document.getElementById(bodyId).innerHTML=idxs.map((i,pos)=>{
+    const v=arr[i]; acum+=v;
+    const prev=pos>0?arr[idxs[pos-1]]:null;
+    const varM=prev?((v-prev)/prev*100).toFixed(1).replace('.',',')+'%':'—';
+    return `<tr class="${pos%2===0?'alt':''}"><td>${MESES[i]}</td><td class="${cls}">${brl(v)}</td><td>${varM}</td><td>${brl(acum)}</td></tr>`;
+  }).join('')+`<tr class="total-row"><td>${idxs.length===12?'Total Anual':'Total Parcial'}</td><td>${brl(acum)}</td><td>—</td><td>${brl(acum)}</td></tr>`;
+}
+
+function renderTabelaComp(){
+  const idxs=DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  document.getElementById('tbodyComp').innerHTML=idxs.map((i,idx)=>{
+    const v25=DADOS.v2025[i],v26=DADOS.v2026[i];
+    const vr=v26-v25,vp=((v26-v25)/v25*100).toFixed(1).replace('.',',');
+    return `<tr class="${idx%2===0?'alt':''}"><td>${MESES[i]}</td><td class="val-verde">${brl(v25)}</td><td class="val-azul">${brl(v26)}</td><td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td><td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td><td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td></tr>`;
+  }).join('');
+  const t25=idxs.reduce((s,i)=>s+DADOS.v2025[i],0), t26=idxs.reduce((s,i)=>s+DADOS.v2026[i],0);
+  const vr=t26-t25, vp=((t26-t25)/t25*100).toFixed(1).replace('.',',');
+  document.getElementById('tbodyComp').innerHTML+=`<tr class="total-row"><td>Total (jan–${ABREV[idxs[idxs.length-1]]})</td><td>${brl(t25)}</td><td>${brl(t26)}</td><td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${brl(vr)}</td><td class="${vr>=0?'val-pos':'val-neg'}">${sinal(vr)}${vp}%</td><td>${vr>=0?'<span class="badge-alta">▲ Alta</span>':'<span class="badge-queda">▼ Queda</span>'}</td></tr>`;
+}
+
+function renderConclusoes(){
+  const vals=DADOS.v2026.filter(v=>v!=null); if(!vals.length){document.getElementById('conclusoes').innerHTML='';return;}
+  const t25=DADOS.v2025.reduce((a,b)=>a+b,0),m25=t25/12;
+  const idxs=DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  const t26=vals.reduce((a,b)=>a+b,0), t25p=idxs.reduce((s,i)=>s+DADOS.v2025[i],0);
+  const vAcum=((t26-t25p)/t25p*100).toFixed(1).replace('.',',');
+  const mx=Math.max(...vals), mxi=DADOS.v2026.indexOf(mx);
+  const proj=(t26/vals.length)*12, vProj=((proj-t25)/t25*100).toFixed(1).replace('.',',');
+  document.getElementById('conclusoes').innerHTML=[
     ['✔','#1F6B2E','var(--verde-lt)','Crescimento consistente em 2026',
-      `Todos os ${v26vals.length} meses de 2026 superam seus equivalentes de 2025. O acumulado somou ${brl(t26)} — crescimento de +${vAcum}% frente ao mesmo período anterior.`],
+      `Todos os ${vals.length} meses de 2026 superam seus equivalentes de 2025. O acumulado somou ${brl(t26)} — crescimento de +${vAcum}% frente ao mesmo período anterior.`],
     ['✔','#185FA5','var(--azul-lt)','Novos recordes mensais',
-      `${MESES[mx26i]}/2026 com ${brl(mx26)} é o melhor mês do período analisado, superando o pico de novembro/2025 (${brl(109367)}).`],
-    ['⚠','#E65100','#FFF3E0','Ponto de atenção',
-      `${MESES[mn26i]}/2026 registrou o menor valor do período parcial (${brl(mn26)}), ainda assim acima da média mensal de 2025 (${brl(Math.round(m25))}). Vale monitorar se é sazonalidade pontual.`],
-    ['◉','#6A1B9A','#F3E5F5','Projeção 2026',
-      `Mantida a média atual (${brl(t26/v26vals.length)}/mês), o faturamento anual projetado seria ${brl(proj)}, crescimento de +${vProj}% sobre 2025 (${brl(t25)}).`],
-  ].map(([icon,cor,bg,titulo,texto]) =>
-    `<div class="insight" style="--cor:${cor};--bg:${bg}">
-      <div class="insight-icon">${icon}</div>
-      <div><div class="insight-title">${titulo}</div>
-      <div class="insight-text">${texto}</div></div>
-    </div>`).join('');
+      `${MESES[mxi]}/2026 com ${brl(mx)} é o melhor mês do período analisado, superando o pico de novembro/2025 (${brl(109367)}).`],
+    ['🎯','#00695C','#E0F2F1','Projeção 2026',
+      `Mantida a média atual (${brl(t26/vals.length)}/mês), o faturamento anual projetado seria ${brl(proj)}, crescimento de +${vProj}% sobre 2025 (${brl(t25)}).`],
+  ].map(([icon,cor,bg,titulo,texto])=>`<div class="insight" style="--cor:${cor};--bg:${bg}"><div class="insight-icon">${icon}</div><div><div class="insight-title">${titulo}</div><div class="insight-text">${texto}</div></div></div>`).join('');
 }
 
-function renderAll() {
-  renderKPIs();
-  renderTabela2025();
-  renderTabela2026();
-  renderTabelaComp();
-  renderConclusoes();
-  setTimeout(desenharGraficos, 80);
+function desenharGraficos(){
+  drawLineChart('c2025',[{data:DADOS.v2025,color:'#1F6B2E',fillColor:'rgba(31,107,46,.10)',showLabels:true,lineWidth:2.5,pointR:5},{data:Array(12).fill(DADOS.v2025.reduce((a,b)=>a+b,0)/12),color:'#94a3b8',dash:[5,4],lineWidth:1.5,pointR:0}],ABREV,{});
+  const labs=ABREV.filter((_,i)=>DADOS.v2026[i]!=null), vals=DADOS.v2026.filter(v=>v!=null);
+  if(vals.length)drawLineChart('c2026',[{data:vals,color:'#185FA5',fillColor:'rgba(24,95,165,.10)',showLabels:true,lineWidth:2.5,pointR:6}],labs,{});
+  const idxs=DADOS.v2026.map((v,i)=>v!=null?i:-1).filter(i=>i>=0);
+  if(idxs.length){const lc=idxs.map(i=>ABREV[i]),d25=idxs.map(i=>DADOS.v2025[i]),d26=idxs.map(i=>DADOS.v2026[i]);
+    drawLineChart('cComp',[{data:d25,color:'#1F6B2E',fillColor:'rgba(31,107,46,.07)',dash:[5,3],lineWidth:2,pointR:5},{data:d26,color:'#185FA5',fillColor:'rgba(24,95,165,.08)',lineWidth:2.5,pointR:6,showLabels:true}],lc,{legend:[{color:'#1F6B2E',label:'2025'},{color:'#185FA5',label:'2026'}]});}
 }
 
+function renderAll(){renderKPIs();renderTabela('tbody2025',DADOS.v2025,'val-verde');renderTabela('tbody2026',DADOS.v2026,'val-azul');renderTabelaComp();renderConclusoes();setTimeout(desenharGraficos,80);}
 renderAll();
-window.addEventListener('resize', () => { clearTimeout(window._rzt); window._rzt = setTimeout(desenharGraficos, 150); });
+window.addEventListener('resize',()=>{clearTimeout(window._rzt);window._rzt=setTimeout(desenharGraficos,150);});
 </script>
 </body>
 </html>
