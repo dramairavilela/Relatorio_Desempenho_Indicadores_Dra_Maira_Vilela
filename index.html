@@ -185,7 +185,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const ABREV = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const DADOS = { v2025: [66944, 26462, 27213, 39737, 45515, 53853, 30973, 38099, 30183, 70054, 109367, 37197], v2026: [83705, 66802, 79786, 58971, 107007, 109543, 100377, 142534, null, null, null, null] };
-const INDICADORES = {"2026-08": {"mes_label": "Agosto/2026", "meta": 150000, "faturamento": 148215, "consultas": 35, "no_show": 3, "retornos": 77, "atendimentos_totais": 112, "turnos": 22, "cirurgias": 5, "lipedema": 1, "procedimentos": 17, "conv_maira": 48, "conv_secretaria": 15, "leads": 147, "fat_ano_anterior": 38099}};
+const INDICADORES = {"2026-08": {"mes_label": "Agosto/2026", "meta": 150000, "faturamento": 148215, "consultas": 35, "no_show": 3, "retornos": 77, "atendimentos_totais": 112, "turnos": 22, "agendamentos": 22, "cirurgias": 5, "lipedema": 1, "procedimentos": 17, "conv_maira": 48, "conv_secretaria": 15, "leads": 147, "fat_ano_anterior": 38099}};
 
 const brl = v => v == null ? '—' : 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const brl2 = v => v == null ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -538,24 +538,28 @@ function renderBI(){
 function exportarPDF(elementId, nome){
   const el = document.getElementById(elementId);
   if(!el){alert('Conteúdo não encontrado.');return;}
+  // Fixa a largura do conteúdo em ~800px durante a captura para caber bem no A4 retrato
+  const prevWidth = el.style.width;
+  const prevMax = el.style.maxWidth;
+  el.style.width = '800px';
+  el.style.maxWidth = '800px';
   const opt = {
-    margin: [8,8,8,8],
+    margin: [10,10,10,10],
     filename: nome+'_DraMaira_'+new Date().toISOString().slice(0,7)+'.pdf',
     image: {type:'jpeg',quality:0.98},
-    html2canvas: {
-      scale:2,
-      useCORS:true,
-      backgroundColor:'#ffffff',
-      scrollX:0, scrollY:0,
-      windowWidth: el.scrollWidth,
-      width: el.scrollWidth,
-      height: el.scrollHeight
-    },
+    html2canvas: {scale:2, useCORS:true, backgroundColor:'#ffffff'},
     jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-    pagebreak: {mode:['avoid-all','css','legacy']}
+    pagebreak: {mode:['css','legacy']}
   };
-  // pequeno atraso garante que fontes/layout estejam prontos antes da captura
-  setTimeout(()=>{ html2pdf().set(opt).from(el).save(); }, 150);
+  setTimeout(()=>{
+    html2pdf().set(opt).from(el).save().then(()=>{
+      el.style.width = prevWidth;
+      el.style.maxWidth = prevMax;
+    }).catch(()=>{
+      el.style.width = prevWidth;
+      el.style.maxWidth = prevMax;
+    });
+  }, 150);
 }
 
 /* ═══════ FATURAMENTO (seções 1-3) ═══════ */
