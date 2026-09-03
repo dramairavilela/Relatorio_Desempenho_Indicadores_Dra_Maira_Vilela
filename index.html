@@ -415,27 +415,18 @@ function renderIndicadores(){
 
 /* ═══════ BI DE INDICADORES (HISTÓRICO) — SVG ═══════ */
 function svgBars(data, opts){
-  // data: [{label, value, color, display}]
-  const W=opts.width||300, H=opts.height||200;
-  const PAD={top:24,right:12,bottom:34,left:12};
-  const cW=W-PAD.left-PAD.right, cH=H-PAD.top-PAD.bottom;
-  const maxV=Math.max(...data.map(d=>d.value))*1.25||1;
-  const n=data.length, slot=cW/n, bw=Math.min(slot*0.55,70);
-  let bars='';
-  // linhas de grade
-  for(let i=0;i<=4;i++){
-    const y=PAD.top+cH-(i/4)*cH;
-    bars+=`<line x1="${PAD.left}" y1="${y}" x2="${W-PAD.right}" y2="${y}" stroke="rgba(0,0,0,.06)" stroke-dasharray="4 4"/>`;
-  }
-  data.forEach((d,i)=>{
-    const h=(d.value/maxV)*cH;
-    const x=PAD.left+slot*i+(slot-bw)/2;
-    const y=PAD.top+cH-h;
-    bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" fill="${d.color}"/>`;
-    bars+=`<text x="${x+bw/2}" y="${y-7}" text-anchor="middle" font-size="12" font-weight="600" fill="#374151" font-family="DM Sans, sans-serif">${d.display}</text>`;
-    bars+=`<text x="${x+bw/2}" y="${H-PAD.bottom+16}" text-anchor="middle" font-size="11" fill="#64748b" font-family="DM Sans, sans-serif">${d.label}</text>`;
-  });
-  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
+  // Barras verticais em HTML/CSS puro (renderizam de forma confiável no PDF)
+  const maxV = Math.max(...data.map(d=>d.value)) * 1.2 || 1;
+  const barArea = 150; // altura útil em px para as barras
+  const bars = data.map(d=>{
+    const h = Math.max((d.value/maxV)*barArea, 2);
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0">
+      <div style="font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;white-space:nowrap">${d.display}</div>
+      <div style="width:60%;max-width:64px;height:${h}px;background:${d.color};border-radius:6px 6px 0 0"></div>
+      <div style="font-size:11px;color:#64748b;margin-top:7px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%">${d.label}</div>
+    </div>`;
+  }).join('');
+  return `<div style="display:flex;align-items:flex-end;gap:10px;height:${barArea+50}px;padding:0 4px;border-bottom:1px solid var(--cinza-bdr)">${bars}</div>`;
 }
 
 function renderBI(){
@@ -546,14 +537,25 @@ function renderBI(){
 /* ═══════ EXPORTAR PDF ═══════ */
 function exportarPDF(elementId, nome){
   const el = document.getElementById(elementId);
+  if(!el){alert('Conteúdo não encontrado.');return;}
   const opt = {
     margin: [8,8,8,8],
     filename: nome+'_DraMaira_'+new Date().toISOString().slice(0,7)+'.pdf',
     image: {type:'jpeg',quality:0.98},
-    html2canvas: {scale:2, useCORS:true, backgroundColor:'#ffffff'},
-    jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
+    html2canvas: {
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#ffffff',
+      scrollX:0, scrollY:0,
+      windowWidth: el.scrollWidth,
+      width: el.scrollWidth,
+      height: el.scrollHeight
+    },
+    jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
+    pagebreak: {mode:['avoid-all','css','legacy']}
   };
-  html2pdf().set(opt).from(el).save();
+  // pequeno atraso garante que fontes/layout estejam prontos antes da captura
+  setTimeout(()=>{ html2pdf().set(opt).from(el).save(); }, 150);
 }
 
 /* ═══════ FATURAMENTO (seções 1-3) ═══════ */
