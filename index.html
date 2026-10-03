@@ -185,7 +185,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const ABREV = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const DADOS = { v2025: [66944, 26462, 27213, 39737, 45515, 53853, 30973, 38099, 30183, 70054, 109367, 37197], v2026: [83705, 66802, 79786, 58971, 107007, 109543, 100377, 142534, 161443, null, null, null] };
-const INDICADORES = {"2026-08": {"mes_label": "Agosto/2026", "meta": 150000, "faturamento": 148215, "consultas": 35, "no_show": 3, "retornos": 77, "atendimentos_totais": 112, "turnos": 22, "agendamentos": 22, "cirurgias": 5, "lipedema": 1, "procedimentos": 17, "conv_maira": 48, "conv_secretaria": 15, "leads": 147, "fat_ano_anterior": 38099}};
+const INDICADORES = {"2026-08": {"mes_label": "Agosto/2026", "meta": 150000, "faturamento": 148215, "consultas": 35, "no_show": 3, "retornos": 77, "atendimentos_totais": 112, "turnos": 22, "agendamentos": 22, "cirurgias": 5, "lipedema": 1, "procedimentos": 17, "conv_maira": 48, "conv_secretaria": 15, "leads": 147, "fat_ano_anterior": 38099}, "2026-09": {"mes_label": "Setembro/2026", "meta": 150000, "faturamento": 163730.27, "consultas": 37, "no_show": 7, "retornos": 97, "atendimentos_totais": 134, "turnos": 24, "cirurgias": 5, "lipedema": 1, "procedimentos": 17, "fat_ano_anterior": 30361.27}};
 
 const brl = v => v == null ? '—' : 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const brl2 = v => v == null ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -389,26 +389,26 @@ function renderIndicadores(){
     </div>
 
     <!-- CONVERSÃO E LEADS -->
-    <div class="grupo-ind" style="margin-bottom:0">
+    ${(d.conv_maira!=null||d.conv_secretaria!=null||d.leads!=null) ? `<div class="grupo-ind" style="margin-bottom:0">
       <div class="grupo-titulo">🎯 Conversão & Leads</div>
       <div class="ind-grid">
-        <div class="ind-card" style="--cor:var(--verde)">
+        ${d.conv_maira!=null?`<div class="ind-card" style="--cor:var(--verde)">
           <div class="ind-emoji">📊</div><div class="ind-label">Conversão — Maíra</div>
           <div class="ind-value">${d.conv_maira}%</div>
           <div class="ind-sub">${d.procedimentos} inícios de tto ÷ ${d.consultas} consultas</div>
-        </div>
-        <div class="ind-card" style="--cor:var(--laranja)">
+        </div>`:''}
+        ${d.conv_secretaria!=null?`<div class="ind-card" style="--cor:var(--laranja)">
           <div class="ind-emoji">📊</div><div class="ind-label">Conversão — Secretária</div>
           <div class="ind-value">${d.conv_secretaria}%</div>
           <div class="ind-sub">${d.agendamentos} agendamentos ÷ ${d.leads} leads</div>
-        </div>
-        <div class="ind-card" style="--cor:var(--azul-md)">
+        </div>`:''}
+        ${d.leads!=null?`<div class="ind-card" style="--cor:var(--azul-md)">
           <div class="ind-emoji">👥</div><div class="ind-label">Leads do mês</div>
           <div class="ind-value">${d.leads}</div>
           <div class="ind-sub">Google + Instagram</div>
-        </div>
+        </div>`:''}
       </div>
-    </div>
+    </div>` : ''}
   </div>`;
   document.getElementById('painelIndicadores').innerHTML = html;
 }
@@ -460,18 +460,19 @@ function renderBI(){
     g1 = svgBars(dados.map((d,i)=>({label:labs[i],value:d.faturamento,color:'#185FA5',display:brlk(d.faturamento)})),{});
     g2 = svgBars(dados.map((d,i)=>({label:labs[i],value:Math.round(d.ticketConsultas),color:'#6A1B9A',display:brlk(d.ticketConsultas)})),{});
     g3 = svgBars(dados.map((d,i)=>({label:labs[i],value:d.atendimentos_totais,color:'#1F6B2E',display:d.atendimentos_totais})),{});
-    g4 = svgBars(dados.map((d,i)=>({label:labs[i],value:d.conv_maira,color:'#1F6B2E',display:d.conv_maira+'%'})),{});
+    const convM=dados.map((d,i)=>({d,lab:labs[i]})).filter(x=>x.d.conv_maira!=null);
+    g4 = convM.length ? svgBars(convM.map(x=>({label:x.lab,value:x.d.conv_maira,color:'#1F6B2E',display:x.d.conv_maira+'%'})),{}) : '<p style="color:#64748b;font-size:12.5px;padding:8px 0">Sem dados de conversão nos meses carregados.</p>';
   }
 
   // Funil de conversão do mês (Leads → Agendamentos → Consultas → Tratamentos)
-  const dm = dados[dados.length-1];
-  const funil = [
+  const comLeads = dados.filter(d=>d.leads!=null); const dm = comLeads.length ? comLeads[comLeads.length-1] : null;
+  const funil = dm ? [
     {label:'Leads recebidos', value:dm.leads, color:'#185FA5'},
     {label:'Agendamentos', value:dm.agendamentos, color:'#00695C'},
     {label:'Consultas realizadas', value:dm.consultas, color:'#6A1B9A'},
     {label:'Inícios de tratamento', value:dm.procedimentos, color:'#1F6B2E'},
-  ];
-  const maxFunil = funil[0].value;
+  ] : [];
+  const maxFunil = funil.length ? funil[0].value : 1;
   const funilHtml = funil.map(f=>{
     const pct=(f.value/maxFunil*100).toFixed(0);
     return `<div style="margin-bottom:12px">
@@ -507,10 +508,10 @@ function renderBI(){
         ${g4}
       </div>
     </div>
-    <div style="margin-bottom:8px">
+    ${dm ? `<div style="margin-bottom:8px">
       <h4 style="font-family:'DM Serif Display',serif;font-size:14px;color:var(--azul);margin-bottom:14px;font-style:italic">Funil de conversão — ${dm.mes_label}</h4>
       ${funilHtml}
-    </div>
+    </div>` : ''}
     <div class="table-card" style="box-shadow:none;margin-top:20px">
       <table>
         <thead><tr>
@@ -525,8 +526,8 @@ function renderBI(){
           <td>${d.atendimentos_totais}</td>
           <td>${d.no_show} (${d.noShowPct.toFixed(0)}%)</td>
           <td>${brl2(d.ticketConsultas)}</td>
-          <td>${d.conv_maira}%</td>
-          <td>${d.leads}</td>
+          <td>${d.conv_maira!=null?d.conv_maira+'%':'—'}</td>
+          <td>${d.leads!=null?d.leads:'—'}</td>
         </tr>`).join('')}</tbody>
       </table>
     </div>
