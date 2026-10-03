@@ -85,6 +85,17 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--cinza-dk);m
   body{background:#fff}
   .no-print{display:none!important}
   .section{page-break-inside:avoid}
+  /* Impressão de UMA seção só (export PDF por print nativo) */
+  body[data-print] .header,
+  body[data-print] .footer,
+  body[data-print] .section{display:none!important}
+  body[data-print="painelIndicadores"] #secIndicadores,
+  body[data-print="painelBI"] #secBI{display:block!important}
+  body[data-print] #secIndicadores .mes-selector,
+  body[data-print] #secBI .btn-pdf{display:none!important}
+  body[data-print] .container{padding:0!important;max-width:100%!important}
+  body[data-print] .section{margin:0!important}
+  @page{margin:12mm}
 }
 @media(max-width:640px){.header-inner{padding:24px 20px 20px 26px}.container{padding:24px 16px 60px}.chart-card{padding:18px 14px}}
 </style>
@@ -539,28 +550,13 @@ function renderBI(){
 function exportarPDF(elementId, nome){
   const el = document.getElementById(elementId);
   if(!el){alert('Conteúdo não encontrado.');return;}
-  // Fixa a largura do conteúdo em ~800px durante a captura para caber bem no A4 retrato
-  const prevWidth = el.style.width;
-  const prevMax = el.style.maxWidth;
-  el.style.width = '800px';
-  el.style.maxWidth = '800px';
-  const opt = {
-    margin: [10,10,10,10],
-    filename: nome+'_DraMaira_'+new Date().toISOString().slice(0,7)+'.pdf',
-    image: {type:'jpeg',quality:0.98},
-    html2canvas: {scale:2, useCORS:true, backgroundColor:'#ffffff'},
-    jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-    pagebreak: {mode:['css','legacy']}
-  };
-  setTimeout(()=>{
-    html2pdf().set(opt).from(el).save().then(()=>{
-      el.style.width = prevWidth;
-      el.style.maxWidth = prevMax;
-    }).catch(()=>{
-      el.style.width = prevWidth;
-      el.style.maxWidth = prevMax;
-    });
-  }, 150);
+  // Impressão nativa do navegador — gera PDF vetorial, sem html2canvas (nunca sai em branco)
+  const prevTitle = document.title;
+  document.title = nome + '_DraMaira_' + new Date().toISOString().slice(0,7);
+  document.body.setAttribute('data-print', elementId);
+  const cleanup = ()=>{ document.body.removeAttribute('data-print'); document.title = prevTitle; };
+  window.addEventListener('afterprint', cleanup, {once:true});
+  setTimeout(()=>{ window.print(); setTimeout(cleanup, 1500); }, 60);
 }
 
 /* ═══════ FATURAMENTO (seções 1-3) ═══════ */
